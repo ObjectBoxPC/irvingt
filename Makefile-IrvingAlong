@@ -1,0 +1,45 @@
+#C compiler
+CC=gcc
+
+#Result file
+TARGET=irvingalong.a
+
+#Archive creator
+AR=ar
+
+#Along32 source directory
+ALONG32_SRC=../Along32/src
+
+#Make program
+MAKE=make
+
+#Objects to compile
+OBJS=irvingt.o irvingt-real.o Along32.o
+
+#C compiler flags
+CFLAGS=-m32 -Wall -Wextra -std=gnu90 -O2 -g
+
+CURRENT_DIR=$(PWD)
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(AR) rcs $(TARGET) $(OBJS)
+
+.SUFFIXES: .c .o
+
+.c.o:
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+.S.o:
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+Along32.o:
+	cd $(ALONG32_SRC) \
+	&& $(MAKE) Along32.o \
+	&& cp Along32.o $(CURRENT_DIR)
+
+.PHONY: clean
+
+clean:
+	rm -f $(TARGET) $(OBJS)

@@ -2,7 +2,7 @@
 
 #ifndef IRVINGT_HAVE_ALONG
 .globl DumpRegs
-.type DumpRegs STT_FUNC
+.type DumpRegs, @function
 
 DumpRegs:
 	pushal

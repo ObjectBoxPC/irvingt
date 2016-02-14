@@ -18,7 +18,7 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(AR) rcs $(TARGET) $(OBJS)
 
-.SUFFIXES: .c .o
+.SUFFIXES: .c .S .o
 
 .c.o:
 	$(CC) -c $(CFLAGS) -o $@ $<

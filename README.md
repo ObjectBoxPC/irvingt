@@ -21,3 +21,7 @@ IrvingT has been tested on the following platforms with GCC and Clang:
 * x86-64 GNU/Linux (with 32-bit development files, sometimes called "multilib")
 * x86 FreeBSD
 * x86 OpenBSD
+
+## Copyright
+
+IrvingT is available under the 2-clause BSD license. Refer to `LICENSE.txt` for details.

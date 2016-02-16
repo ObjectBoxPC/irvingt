@@ -20,6 +20,7 @@ A Linux binary is provided, so you can use it right away on a Linux system. On o
 	to:
 
 		CC = clang
+
 5. Run `make -f GccUnix.mak`. (Replace `make` with `gmake` if necessary.) The compiled binary will appear in the `GccUnixR` directory.
 
 ## Part B: Compile IrvingT

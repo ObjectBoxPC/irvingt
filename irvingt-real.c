@@ -34,3 +34,9 @@ void ExitProcess(int status) {
 	puts("Exit");
 	exit(status);
 }
+
+#ifndef IRVINGT_HAVE_ALONG
+void WriteDec_Real(int x) {
+	printf("%d", x);
+}
+#endif

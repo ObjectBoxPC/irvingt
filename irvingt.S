@@ -36,3 +36,21 @@ WaitMsg:
 	popal
 
 	ret
+
+#ifndef IRVINGT_HAVE_ALONG
+.globl WriteDec
+.type WriteDec, @function
+
+WriteDec:
+	pushal
+	pushfl
+
+	pushl %eax
+	call WriteDec_Real
+	addl $4, %esp
+
+	popfl
+	popal
+
+	ret
+#endif

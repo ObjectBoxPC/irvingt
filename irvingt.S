@@ -54,3 +54,21 @@ WriteDec:
 
 	ret
 #endif
+
+#ifndef IRVINGT_HAVE_ALONG
+.global WriteString
+.type WriteString, @function
+
+WriteString:
+	pushal
+	pushfl
+
+	pushl %edx
+	call WriteString_Real
+	addl $4, %esp
+
+	popfl
+	popal
+
+	ret
+#endif

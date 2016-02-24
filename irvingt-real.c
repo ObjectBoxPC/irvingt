@@ -40,3 +40,10 @@ void WriteDec_Real(int x) {
 	printf("%d", x);
 }
 #endif
+
+#ifndef IRVINGT_HAVE_ALONG
+void WriteString_Real(const char* str) {
+	printf("%s", str);
+	fflush(stdout);
+}
+#endif

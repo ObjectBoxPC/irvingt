@@ -25,15 +25,15 @@ void DumpRegs_Real(int eip, int efl, int edi, int esi, int ebp, int esp, int ebx
 }
 #endif
 
-void WaitMsg_Real(void) {
-	puts("Press Enter to continue...");
-	getchar();
-}
-
 void ExitProcess(int status) {
 	puts("Exit");
 	exit(status);
-}
+
+
+void WaitMsg_Real(void) {
+	puts("Press Enter to continue...");
+	getchar();
+}}
 
 #ifndef IRVINGT_HAVE_ALONG
 void WriteDec_Real(int x) {

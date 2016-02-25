@@ -56,7 +56,7 @@ WriteDec:
 #endif
 
 #ifndef IRVINGT_HAVE_ALONG
-.global WriteString
+.globl WriteString
 .type WriteString, @function
 
 WriteString:

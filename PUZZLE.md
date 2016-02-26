@@ -55,6 +55,6 @@ Run JWasm with the options `-I[Irvine32 directory] -zcw -elf`:
 
 ## Part F: Link the Files with IrvingT
 
-Use a C compiler such as GCC or Clang to link. The ensures that the C standard library is linked properly:
+Use a C compiler such as GCC or Clang to link. This ensures that the C standard library is linked properly:
 
 	gcc -o [output file] [ASM file] [IrvingT static library]

@@ -1,6 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * @file
+ * "Real" IrvingT functions.
+ * These functions do most of the work. They have names of the form
+ * `[Irvine32 function]_Real`. The functions with the actual names from Irvine32
+ * are in `irvingt.S`. Those simply save the registers and flags, and
+ * transform the parameters passed in registers into the cdecl calling
+ * convention, which is standard in Unix-like systems for C functions.
+ *
+ * For convenience, all the documentation is in this file. Each parameter lists
+ * the register in which it should be passed.
+ */
+
+/**
+ * Display the contents of the registers and selected flags.
+ * The ordering of parameters is due to the order in which the PUSHAD
+ * instruction pushes the registers. This function steals those values and uses
+ * them as parameters.
+ * @param eip, efl, edi, esi, ebp, esp, ebx, edx, ecx, eax Registers
+ */
 #ifndef IRVINGT_HAVE_ALONG
 void DumpRegs_Real(int eip, int efl, int edi, int esi, int ebp, int esp, int ebx, int edx, int ecx, int eax) {
 	int cf, sf, zf, of, af, pf;
@@ -25,16 +45,29 @@ void DumpRegs_Real(int eip, int efl, int edi, int esi, int ebp, int esp, int ebx
 }
 #endif
 
+/**
+ * Exit the program with the given status.
+ * This function is not part of Irvine32; it is a Windows API function. However,
+ * it is included because Irvine32 uses it as part of its "exit" macro.
+ * @param status Status code
+ */
 void ExitProcess(int status) {
 	puts("Exit");
 	exit(status);
 }
 
+/**
+ * Pause the program and wait for user input.
+ */
 void WaitMsg_Real(void) {
 	puts("Press Enter to continue...");
 	getchar();
 }
 
+/**
+ * Output an integer in decimal.
+ * @param x (EAX) Integer to write
+ */
 #ifndef IRVINGT_HAVE_ALONG
 void WriteDec_Real(int x) {
 	printf("%d", x);
@@ -42,6 +75,10 @@ void WriteDec_Real(int x) {
 }
 #endif
 
+/**
+ * Output a null-terminated string.
+ * @param str (EDX) Starting address of string to output
+ */
 #ifndef IRVINGT_HAVE_ALONG
 void WriteString_Real(const char* str) {
 	printf("%s", str);

@@ -14,6 +14,10 @@ Even though one goal of IrvingT is to overcome the portability problems of Along
 
 An additional makefile, `Makefile-IrvingAlong`, is provided for this purpose. Edit the file and change the Along32 source directory. Then run `make -f Makefile-IrvingAlong` to get a static library called `irvingalong.a` in the current directory.
 
+## Documentation
+
+Documentation (in Doxygen format) is in `irvingt-real.c` file.
+
 ## Tested Environments
 
 IrvingT has been tested on the following platforms with GCC and Clang:

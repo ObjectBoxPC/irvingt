@@ -3,9 +3,9 @@
 
 #ifndef IRVINGT_HAVE_ALONG
 void DumpMem_Real(void* addr, unsigned int count, unsigned int size) {
-	int* data_dword = addr;
-	short* data_word = addr;
-	char* data_byte = addr;
+	unsigned int* data_dword = addr;
+	unsigned short* data_word = addr;
+	unsigned char* data_byte = addr;
 	unsigned int i;
 
 	puts("");

@@ -65,12 +65,12 @@ void WaitMsg_Real(void) {
 }
 
 /**
- * Output an integer in decimal.
+ * Output an unsigned 32-bit integer in decimal.
  * @param x (EAX) Integer to write
  */
 #ifndef IRVINGT_HAVE_ALONG
-void WriteDec_Real(int x) {
-	printf("%d", x);
+void WriteDec_Real(unsigned int x) {
+	printf("%u", x);
 	fflush(stdout);
 }
 #endif

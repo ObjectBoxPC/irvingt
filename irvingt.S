@@ -38,6 +38,25 @@ WaitMsg:
 	ret
 
 #ifndef IRVINGT_HAVE_ALONG
+.globl WriteChar
+.type WriteChar, @function
+
+WriteChar:
+	pushal
+	pushfl
+
+	#Push the entire EAX for alignment reasons
+	pushl %eax
+	call WriteChar_Real
+	addl $4, %esp
+
+	popfl
+	popal
+
+	ret
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
 .globl WriteDec
 .type WriteDec, @function
 

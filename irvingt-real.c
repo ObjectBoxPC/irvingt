@@ -65,6 +65,21 @@ void WaitMsg_Real(void) {
 }
 
 /**
+ * Output a character.
+ * @param c (AL) Character to write.
+ * @note The argument is an `int` rather than a `char` because in reality
+ * the entirety of EAX is passed to this function because of alignment
+ * requirements.
+ */
+#ifndef IRVINGT_HAVE_ALONG
+void WriteChar_Real(unsigned int c) {
+	unsigned char c_real = c & 0xFF;
+	printf("%c", c_real);
+	fflush(stdout);
+}
+#endif
+
+/**
  * Output an unsigned 32-bit integer in decimal.
  * @param x (EAX) Integer to write
  */

@@ -1,6 +1,26 @@
 .text
 
 #ifndef IRVINGT_HAVE_ALONG
+.globl DumpMem
+.type DumpMem, @function
+
+DumpMem:
+	pushal
+	pushfl
+
+	pushl %ebx
+	pushl %ecx
+	pushl %esi
+	call DumpMem_Real
+	addl $12, %esp
+
+	popfl
+	popal
+
+	ret
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
 .globl DumpRegs
 .type DumpRegs, @function
 

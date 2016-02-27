@@ -2,6 +2,41 @@
 #include <stdlib.h>
 
 #ifndef IRVINGT_HAVE_ALONG
+void DumpMem_Real(void* addr, unsigned int count, unsigned int size) {
+	int* data_dword = addr;
+	short* data_word = addr;
+	char* data_byte = addr;
+	unsigned int i;
+
+	puts("");
+	printf("Dump of offset %.8X\n", (int) addr);
+	puts("-------------------------------");
+	switch(size) {
+	case 4:
+		for(i = 0; i < count; i++) {
+			printf("%.8X  ", data_dword[i]);
+		}
+		break;
+	case 2:
+		for(i = 0; i < count; i++) {
+			printf("%.4X ", data_word[i]);
+		}
+		break;
+	case 1:
+		/* Bytes are the default */
+	default:
+		for(i = 0; i < count; i++) {
+			printf("%.2X ", data_byte[i]);
+			if((i + 1) % 16 == 0) {
+				puts("");
+			}
+		}
+	}
+	puts("");
+}
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
 void DumpRegs_Real(int eip, int efl, int edi, int esi, int ebp, int esp, int ebx, int edx, int ecx, int eax) {
 	int cf, sf, zf, of, af, pf;
 

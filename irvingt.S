@@ -74,6 +74,24 @@ WriteHex:
 #endif
 
 #ifndef IRVINGT_HAVE_ALONG
+.globl WriteInt
+.type WriteInt, @function
+
+WriteInt:
+	pushal
+	pushfl
+
+	pushl %eax
+	call WriteInt_Real
+	addl $4, %esp
+
+	popfl
+	popal
+
+	ret
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
 .globl WriteString
 .type WriteString, @function
 

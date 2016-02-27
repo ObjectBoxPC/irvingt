@@ -76,6 +76,17 @@ void WriteDec_Real(unsigned int x) {
 #endif
 
 /**
+ * Output an unsigned 32-bit integer in hexadecimal.
+ * @param x (EAX) Integer to write
+ */
+#ifndef IRVINGT_HAVE_ALONG
+void WriteHex_Real(unsigned int x) {
+	printf("%X", x);
+	fflush(stdout);
+}
+#endif
+
+/**
  * Output a null-terminated string.
  * @param str (EDX) Starting address of string to output
  */

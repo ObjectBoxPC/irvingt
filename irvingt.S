@@ -56,6 +56,24 @@ WriteDec:
 #endif
 
 #ifndef IRVINGT_HAVE_ALONG
+.globl WriteHex
+.type WriteHex, @function
+
+WriteHex:
+	pushal
+	pushfl
+
+	pushl %eax
+	call WriteHex_Real
+	addl $4, %esp
+
+	popfl
+	popal
+
+	ret
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
 .globl WriteString
 .type WriteString, @function
 

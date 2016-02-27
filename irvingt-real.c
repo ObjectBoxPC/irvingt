@@ -96,7 +96,7 @@ void WriteDec_Real(unsigned int x) {
  */
 #ifndef IRVINGT_HAVE_ALONG
 void WriteHex_Real(unsigned int x) {
-	printf("%X", x);
+	printf("%.8X", x);
 	fflush(stdout);
 }
 #endif

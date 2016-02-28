@@ -1,6 +1,22 @@
 .text
 
 #ifndef IRVINGT_HAVE_ALONG
+.globl Crlf
+.type Crlf, @function
+
+Crlf:
+	pushal
+	pushfl
+
+	call Crlf_Real
+
+	popfl
+	popal
+
+	ret
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
 .globl DumpRegs
 .type DumpRegs, @function
 

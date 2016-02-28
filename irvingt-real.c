@@ -15,6 +15,15 @@
  */
 
 /**
+ * Advance to the next line in the terminal by writing a newline.
+ */
+#ifndef IRVINGT_HAVE_ALONG
+void Crlf_Real() {
+	puts("");
+}
+#endif
+
+/**
  * Display the contents of the registers and selected flags.
  * The ordering of parameters is due to the order in which the PUSHAD
  * instruction pushes the registers. This function steals those values and uses

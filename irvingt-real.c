@@ -29,7 +29,7 @@ void Crlf_Real() {
  * Advance to the next line in the terminal by writing a newline.
  */
 #ifndef IRVINGT_HAVE_ALONG
-void Delay_Real(int msecs) {
+void Delay_Real(unsigned int msecs) {
 	struct timespec spec;
 
 	spec.tv_sec = msecs / 1000;

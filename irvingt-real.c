@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <stddef.h>
 
 /**
  * @file
@@ -20,6 +22,19 @@
 #ifndef IRVINGT_HAVE_ALONG
 void Crlf_Real() {
 	puts("");
+}
+#endif
+
+/**
+ * Advance to the next line in the terminal by writing a newline.
+ */
+#ifndef IRVINGT_HAVE_ALONG
+void Delay_Real(int msecs) {
+	struct timespec spec;
+
+	spec.tv_sec = msecs / 1000;
+	spec.tv_nsec = (msecs % 1000) * 1000;
+	nanosleep(&spec, NULL);
 }
 #endif
 

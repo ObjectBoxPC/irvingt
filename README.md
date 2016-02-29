@@ -4,6 +4,8 @@ IrvingT is a clone of the Irvine32 library, used in *Assembly Language for x86 P
 
 Unlike [Along32](https://sourceforge.net/projects/jwasm/), a Linux port of Irvine32, IrvingT uses the C standard library, rather than system calls, so it is portable to other Unix-like systems. Also, IrvingT provides an emulation of the Windows `ExitProcess` function, which is required by the `exit` macro in Irvine32.
 
+The latest version is 0.2. Not all functions are implemented yet.
+
 ## Compiling
 
 Simply run `make` to get a static library called `irvingt.a` in the current directory.

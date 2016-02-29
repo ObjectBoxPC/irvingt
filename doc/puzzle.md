@@ -14,9 +14,13 @@ A Linux binary is provided, so you can use it right away on a Linux system. On o
 2. Install a suitable compiler (GCC or Clang), if one is not already installed.
 3. Install GNU make. The `make` provided on BSD systems will likely not work because the makefiles rely on GNU extensions. On FreeBSD and OpenBSD, GNU make is provided as a package called `gmake`.
 4. If you use Clang, edit the `GccUnix.mak` file and change the line:
+
 		CC = gcc
+
 	to:
+
 		CC = clang
+
 5. Run `make -f GccUnix.mak`. (Replace `make` with `gmake` if necessary.) The compiled binary will appear in the `GccUnixR` directory.
 
 ## Part B: Compile IrvingT
@@ -51,6 +55,6 @@ Run JWasm with the options `-I[Irvine32 directory] -zcw -elf`:
 
 ## Part F: Link the Files with IrvingT
 
-Use a C compiler such as GCC or Clang to link. The ensures that the C standard library is linked properly:
+Use a C compiler such as GCC or Clang to link. This ensures that the C standard library is linked properly:
 
 	gcc -o [output file] [ASM file] [IrvingT static library]

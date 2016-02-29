@@ -26,7 +26,8 @@ void Crlf_Real() {
 #endif
 
 /**
- * Advance to the next line in the terminal by writing a newline.
+ * Pause the program temporarily.
+ * @param msecs (EAX) Time to pause for, in milliseconds
  */
 #ifndef IRVINGT_HAVE_ALONG
 void Delay_Real(unsigned int msecs) {

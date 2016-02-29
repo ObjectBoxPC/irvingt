@@ -18,7 +18,7 @@
  * Advance to the next line in the terminal by writing a newline.
  */
 #ifndef IRVINGT_HAVE_ALONG
-void Crlf_Real() {
+void Crlf_Real(void) {
 	puts("");
 }
 #endif

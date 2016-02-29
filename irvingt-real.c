@@ -15,6 +15,43 @@
  */
 
 /**
+ * Integer representing an invalid file handle (`INVALID_HANDLE_VALUE`
+ * in Irvine32).
+ * @see CreateOutputFile_Real
+ */
+const int IRVINGT_INVALID_HANDLE = -1;
+
+/**
+ * Close a file handle.
+ * @param handle (EAX) Handle to close
+ * @return (EAX) Nonzero if the file was closed successfully, zero otherwise
+ * @see CreateOutputFile_Real
+ */
+int CloseFile_Real(int handle) {
+	if((handle != IRVINGT_INVALID_HANDLE) && (!fclose((FILE*) handle))) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+/**
+ * Create a file for output.
+ * @param filename (EDX) Filename as a null-terminated string
+ * @return (EAX) File handle, or `INVALID_HANDLE_VALUE` if the file could not
+ * be created
+ * @see WriteToFile_Real, CloseFile_Real
+ */
+int CreateOutputFile_Real(const char* filename) {
+	FILE* file = fopen(filename, "wb");
+	if(file) {
+		return (int) file;
+	} else {
+		return IRVINGT_INVALID_HANDLE;
+	}
+}
+
+/**
  * Advance to the next line in the terminal by writing a newline.
  */
 #ifndef IRVINGT_HAVE_ALONG
@@ -131,3 +168,14 @@ void WriteString_Real(const char* str) {
 	fflush(stdout);
 }
 #endif
+
+/**
+ * Write data to a file.
+ * @param handle (EAX) File handle
+ * @param buf (EDX) Buffer
+ * @param count (ECX) Number of bytes to write
+ * @return (EAX) Number of bytes written, or zero if an error occurred
+ */
+unsigned int WriteToFile_Real(FILE* handle, const char* buf, unsigned int count) {
+	return (unsigned int) fwrite(buf, 1, count, handle);
+}

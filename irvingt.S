@@ -1,4 +1,44 @@
+.data
+
+ret_val: .int
+
 .text
+
+.globl CloseFile
+.type CloseFile, @function
+
+CloseFile:
+	pushal
+	pushfl
+
+	pushl %eax
+	call CloseFile_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+
+	ret
+
+.globl CreateOutputFile
+.type CreateOutputFile, @function
+
+CreateOutputFile:
+	pushal
+	pushfl
+
+	pushl %edx
+	call CreateOutputFile_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+
+	ret
 
 #ifndef IRVINGT_HAVE_ALONG
 .globl Crlf
@@ -143,3 +183,23 @@ WriteString:
 
 	ret
 #endif
+
+.globl WriteToFile
+.type WriteToFile, @function
+
+WriteToFile:
+	pushal
+	pushfl
+
+	pushl %ecx
+	pushl %edx
+	pushl %eax
+	call WriteToFile_Real
+	addl $12, %esp
+
+	mov %eax, ret_val
+	popfl
+	popal
+	mov ret_val, %eax
+
+	ret

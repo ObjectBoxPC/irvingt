@@ -51,16 +51,16 @@ DumpRegs:
 .type StrLength, @function
 
 StrLength:
-	pushfl
 	pushal
+	pushfl
 
 	pushl %edx
 	call StrLength_Real
 	addl $4, %esp
 
 	movl %eax, ret_val
-	popal
 	popfl
+	popal
 	movl ret_val, %eax
 
 	ret

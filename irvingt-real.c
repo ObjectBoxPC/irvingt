@@ -13,6 +13,12 @@
  *
  * For convenience, all the documentation is in this file. Each parameter lists
  * the register in which it should be passed.
+ *
+ * @copyright Copyright (c) 2016 Philip Chung
+ * <https://bitbucket.org/philipchungtech/irvingt>
+ * All rights reserved.
+ * Available under the 2-clause BSD license (refer to `LICENSE.txt`
+ * for details).
  */
 
 /**

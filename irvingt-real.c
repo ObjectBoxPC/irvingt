@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * @file
@@ -63,6 +64,15 @@ void DumpRegs_Real(int eip, int efl, int edi, int esi, int ebp, int esp, int ebx
 void ExitProcess(int status) {
 	puts("Exit");
 	exit(status);
+}
+
+/**
+ * Find the length of a null-terminated string.
+ * @param str (EDX) String
+ * @return (EAX) Length
+ */
+unsigned int StrLength_Real(const char* str) {
+	return (unsigned int) strlen(str);
 }
 
 /**

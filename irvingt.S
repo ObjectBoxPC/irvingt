@@ -1,3 +1,7 @@
+.data
+
+ret_val: .int
+
 .text
 
 #ifndef IRVINGT_HAVE_ALONG
@@ -38,6 +42,24 @@ DumpRegs:
 
 	ret
 #endif
+
+.globl StrLength
+.type StrLength, @function
+
+StrLength:
+	pushfl
+	pushal
+
+	pushl %edx
+	call StrLength_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popal
+	popfl
+	movl ret_val, %eax
+
+	ret
 
 .globl WaitMsg
 .type WaitMsg, STT_FUNC

@@ -45,6 +45,24 @@ DumpMem:
 #endif
 
 #ifndef IRVINGT_HAVE_ALONG
+.globl Delay
+.type Delay, @function
+
+Delay:
+	pushal
+	pushfl
+
+	pushl %eax
+	call Delay_Real
+	addl $4, %esp
+
+	popfl
+	popal
+
+	ret
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
 .globl DumpRegs
 .type DumpRegs, @function
 

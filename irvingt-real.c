@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 
 /**
  * @file
@@ -68,6 +70,20 @@ void DumpMem_Real(void* addr, unsigned int count, unsigned int size) {
 		}
 	}
 	puts("");
+}
+#endif
+
+/**
+ * Pause the program temporarily.
+ * @param msecs (EAX) Time to pause for, in milliseconds
+ */
+#ifndef IRVINGT_HAVE_ALONG
+void Delay_Real(unsigned int msecs) {
+	struct timespec spec;
+
+	spec.tv_sec = msecs / 1000;
+	spec.tv_nsec = (msecs % 1000) * 1000;
+	nanosleep(&spec, NULL);
 }
 #endif
 

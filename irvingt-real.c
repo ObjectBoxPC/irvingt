@@ -30,6 +30,12 @@ void Crlf_Real(void) {
 }
 #endif
 
+/**
+ * Display memory contents, organized in byte, word, or doubleword units.
+ * @param addr (ESI) Memory address
+ * @param count (ECX) Number of units to display
+ * @param size (EBX) Unit size (1 = byte, 2 = word, 4 = doubleword)
+ */
 #ifndef IRVINGT_HAVE_ALONG
 void DumpMem_Real(void* addr, unsigned int count, unsigned int size) {
 	unsigned int* data_dword = addr;

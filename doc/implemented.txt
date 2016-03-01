@@ -1,4 +1,6 @@
 Crlf
+Delay
+DumpMem
 DumpRegs
 StrLength
 WaitMsg

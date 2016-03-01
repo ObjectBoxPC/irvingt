@@ -30,6 +30,41 @@ void Crlf_Real(void) {
 }
 #endif
 
+#ifndef IRVINGT_HAVE_ALONG
+void DumpMem_Real(void* addr, unsigned int count, unsigned int size) {
+	unsigned int* data_dword = addr;
+	unsigned short* data_word = addr;
+	unsigned char* data_byte = addr;
+	unsigned int i;
+
+	puts("");
+	printf("Dump of offset %.8X\n", (int) addr);
+	puts("-------------------------------");
+	switch(size) {
+	case 4:
+		for(i = 0; i < count; i++) {
+			printf("%.8X  ", data_dword[i]);
+		}
+		break;
+	case 2:
+		for(i = 0; i < count; i++) {
+			printf("%.4X ", data_word[i]);
+		}
+		break;
+	case 1:
+		/* Bytes are the default */
+	default:
+		for(i = 0; i < count; i++) {
+			printf("%.2X ", data_byte[i]);
+			if((i + 1) % 16 == 0) {
+				puts("");
+			}
+		}
+	}
+	puts("");
+}
+#endif
+
 /**
  * Display the contents of the registers and selected flags.
  * The ordering of parameters is due to the order in which the PUSHAD

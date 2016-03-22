@@ -104,7 +104,7 @@ StrLength:
 	ret
 
 .globl WaitMsg
-.type WaitMsg, STT_FUNC
+.type WaitMsg, @function
 
 WaitMsg:
 	pushal

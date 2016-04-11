@@ -2,6 +2,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <errno.h>
 #include <stddef.h>
 
 /**
@@ -128,6 +130,53 @@ void ExitProcess(int status) {
 	puts("Exit");
 	exit(status);
 }
+
+#ifndef IRVINGT_HAVE_ALONG
+/**
+ * Read an unsigned integer.
+ * @param carry (CF: least significant bit) Set if the integer is empty,
+ * consists of only blanks, or is too large to fit in a doubleword;
+ * cleared otherwise.
+ * @return (EAX) The integer read, or zero on error
+ * @note Not all errors cause the carry flag to be set.
+ */
+unsigned int ReadDec_Real(int* carry) {
+	int c;
+	char num_str[21]; /* All 32-bit integers can fit into less than 20 chars.*/
+
+	while((c = getchar()) != EOF && c != '\n' && isspace(c)) {
+		/* Skip spaces */
+	}
+	if(c == '\n' || c == EOF) {
+		/* End of empty line or line consisting of only spaces */
+		*carry = 1;
+		return 0;
+	} else {
+		ungetc(c, stdin);
+		if(scanf("%20[0123456789]*[^\n]%*1[\n]", num_str) == 1) {
+			/* Got an unsigned integer */
+			int errno_old = errno;
+			unsigned long num;
+
+			num = strtoul(num_str, NULL, 10);
+			if(errno == ERANGE) {
+				*carry = 1;
+				num = 0;
+			} else {
+				*carry = 0;
+			}
+			errno = errno_old;
+			return num;
+		} else {
+			/* Did not get an unsigned integer */
+			/* Ignore the rest of the line */
+			scanf("%*[^\n]%*1[\n]");
+			*carry = 0;
+			return 0;
+		}
+	}
+}
+#endif
 
 /**
  * Find the length of a null-terminated string.

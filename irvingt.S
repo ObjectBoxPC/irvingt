@@ -5,6 +5,7 @@
 .data
 
 ret_val: .int 0
+ret_extra: .int 0
 
 .text
 
@@ -81,6 +82,27 @@ DumpRegs:
 
 	popfl
 	popal
+
+	ret
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
+.globl ReadDec
+.type ReadDec, @function
+
+ReadDec:
+	pushal
+	pushfl
+
+	pushl $ret_extra
+	call ReadDec_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+	btl $0, ret_extra
 
 	ret
 #endif

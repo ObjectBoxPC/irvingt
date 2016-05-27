@@ -153,7 +153,7 @@ unsigned int ReadDec_Real(int* carry) {
 		return 0;
 	} else {
 		ungetc(c, stdin);
-		if(scanf("%20[0123456789]*[^\n]%*1[\n]", num_str) == 1) {
+		if(scanf("%20[0123456789]%*[^\n]%*1[\n]", num_str) == 1) {
 			/* Got an unsigned integer */
 			int errno_old = errno;
 			unsigned long num;

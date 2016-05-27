@@ -4,6 +4,7 @@ DumpMem
 DumpRegs
 StrLength
 ReadDec
+ReadInt
 WaitMsg
 WriteChar
 WriteDec

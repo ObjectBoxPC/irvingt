@@ -178,6 +178,45 @@ unsigned int ReadDec_Real(int* carry) {
 }
 #endif
 
+#ifndef IRVINGT_HAVE_ALONG
+/**
+ * Read a signed integer with optional sign (positive or negative).
+ * An error message is output if the input is not a valid integer
+ * or the integer overflows.
+ * @param overflow (OF: least significant bit) Set if the input is not a valid
+ * integer or is too large to fit in a doubleword, cleared otherwise.
+ * @return (EAX) The integer read, or zero on error
+ */
+int ReadInt_Real(int* overflow) {
+	char num_str[21]; /* All 32-bit integers can fit into less than 20 chars.*/
+
+	if(
+		scanf("%1[+-]", num_str) == 1
+		&& scanf("%19[0123456789]%*[^\n]%*1[\n]", num_str + 1) == 1
+	) {
+		/* Got a signed integer */
+		int errno_old = errno;
+		long num;
+
+		num = strtol(num_str, NULL, 10);
+		if(errno == ERANGE) {
+			*overflow = 1;
+			num = 0;
+		} else {
+			*overflow = 0;
+		}
+		errno = errno_old;
+		return num;
+	} else {
+		/* Did not get a signed integer */
+		/* Ignore the rest of the line */
+		scanf("%*[^\n]%*1[\n]");
+		*overflow = 1;
+		return 0;
+	}
+}
+#endif
+
 /**
  * Find the length of a null-terminated string.
  * @param str (EDX) String

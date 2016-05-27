@@ -107,6 +107,34 @@ ReadDec:
 	ret
 #endif
 
+#ifndef IRVINGT_HAVE_ALONG
+.globl ReadInt
+.type ReadInt, @function
+
+ReadInt:
+	pushal
+	pushfl
+
+	pushl $ret_extra
+	call ReadInt_Real
+	addl $4, %esp
+
+	testl $(1 << 0), ret_extra
+	jz 0f
+
+	orl $(1 << 11), (%esp)
+	jmp 1f
+0:
+	andl $~(1 << 11), (%esp)
+1:
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+
+	ret
+#endif
+
 .globl StrLength
 .type StrLength, @function
 

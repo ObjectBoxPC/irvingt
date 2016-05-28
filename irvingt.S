@@ -1,6 +1,7 @@
 .data
 
 ret_val: .int 0
+ret_extra: .int 0
 
 .text
 
@@ -78,6 +79,46 @@ DumpRegs:
 
 	ret
 #endif
+
+.globl OpenInputFile
+.type OpenInputFile, @function
+
+OpenInputFile:
+	pushal
+	pushfl
+
+	pushl %edx
+	call OpenInputFile_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+
+	ret
+
+.globl ReadFromFile
+.type ReadFromFile, @function
+
+ReadFromFile:
+	pushal
+	pushfl
+
+	pushl $ret_extra
+	pushl %ecx
+	pushl %edx
+	pushl %eax
+	call ReadFromFile_Real
+	addl $16, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+	btl $0, ret_extra
+
+	ret
 
 .globl WaitMsg
 .type WaitMsg, STT_FUNC

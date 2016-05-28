@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 /**
  * @file
@@ -100,6 +101,47 @@ void DumpRegs_Real(int eip, int efl, int edi, int esi, int ebp, int esp, int ebx
 void ExitProcess(int status) {
 	puts("Exit");
 	exit(status);
+}
+
+/**
+ * Open a file for intput.
+ * @param filename (EDX) Filename as a null-terminated string
+ * @return (EAX) File handle, or `INVALID_HANDLE_VALUE` if the file could not
+ * be created
+ * @see ReadFromFile_Real, CloseFile_Real
+ */
+int OpenInputFile_Real(const char* filename) {
+	FILE* file = fopen(filename, "rb");
+	if(file) {
+		return (int) file;
+	} else {
+		return IRVINGT_INVALID_HANDLE;
+	}
+}
+
+/**
+ * Read data from a file.
+ * @param handle (EAX) File handle
+ * @param buf (EDX) Buffer
+ * @param count (ECX) Number of bytes to read
+ * @param carry (CF: least significant bit) Set if EAX contains an error code,
+ * clear if EAX contains the number of bytes read
+ * @return (EAX) Number of bytes read, or an error code on error
+ */
+unsigned int ReadFromFile_Real(FILE* handle, char* buf, unsigned int count, int* carry) {
+	int errno_old, ret_val;
+
+	errno_old = errno;
+	errno = 0;
+	ret_val = fread(buf, 1, count, handle);
+	if(errno) {
+		*carry = 1;
+		ret_val = errno;
+	} else {
+		*carry = 0;
+	}
+	errno = errno_old;
+	return ret_val;
 }
 
 /**

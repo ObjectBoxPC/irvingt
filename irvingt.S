@@ -1,6 +1,6 @@
 .data
 
-ret_val: .int
+ret_val: .int 0
 
 .text
 

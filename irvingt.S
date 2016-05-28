@@ -5,8 +5,45 @@
 .data
 
 ret_val: .int 0
+ret_extra: .int 0
 
 .text
+
+.globl CloseFile
+.type CloseFile, @function
+
+CloseFile:
+	pushal
+	pushfl
+
+	pushl %eax
+	call CloseFile_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+
+	ret
+
+.globl CreateOutputFile
+.type CreateOutputFile, @function
+
+CreateOutputFile:
+	pushal
+	pushfl
+
+	pushl %edx
+	call CreateOutputFile_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+
+	ret
 
 #ifndef IRVINGT_HAVE_ALONG
 .globl Crlf
@@ -84,6 +121,46 @@ DumpRegs:
 
 	ret
 #endif
+
+.globl OpenInputFile
+.type OpenInputFile, @function
+
+OpenInputFile:
+	pushal
+	pushfl
+
+	pushl %edx
+	call OpenInputFile_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+
+	ret
+
+.globl ReadFromFile
+.type ReadFromFile, @function
+
+ReadFromFile:
+	pushal
+	pushfl
+
+	pushl $ret_extra
+	pushl %ecx
+	pushl %edx
+	pushl %eax
+	call ReadFromFile_Real
+	addl $16, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+	btl $0, ret_extra
+
+	ret
 
 .globl StrLength
 .type StrLength, @function
@@ -207,3 +284,23 @@ WriteString:
 
 	ret
 #endif
+
+.globl WriteToFile
+.type WriteToFile, @function
+
+WriteToFile:
+	pushal
+	pushfl
+
+	pushl %ecx
+	pushl %edx
+	pushl %eax
+	call WriteToFile_Real
+	addl $12, %esp
+
+	mov %eax, ret_val
+	popfl
+	popal
+	mov ret_val, %eax
+
+	ret

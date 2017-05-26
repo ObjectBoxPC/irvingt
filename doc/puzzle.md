@@ -8,7 +8,7 @@ The only such assembler I could find is [JWasm](https://sourceforge.net/projects
 
 A Linux binary is provided, so you can use it right away on a Linux system. On other systems, you will have to compile it yourself.
 
-### Compile JWasm
+### Compile JWasm (Non-Linux Systems)
 
 1. Download the source code. (Updated source code seems to be on [GitHub](https://github.com/JWasm/JWasm).)
 2. Install a suitable compiler (GCC or Clang), if one is not already installed.

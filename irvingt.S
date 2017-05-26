@@ -46,6 +46,22 @@ CreateOutputFile:
 	ret
 
 #ifndef IRVINGT_HAVE_ALONG
+.globl Clrscr
+.type Clrscr, @function
+
+Clrscr:
+	pushal
+	pushfl
+
+	call Clrscr_Real
+
+	popfl
+	popal
+
+	ret
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
 .globl Crlf
 .type Crlf, @function
 

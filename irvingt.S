@@ -1,5 +1,5 @@
-#This file is part of IrvingT <https://bitbucket.org/philipchungtech/irvingt>
-#Copyright (c) 2016 Philip Chung. All rights reserved.
+#This file is part of IrvingT <https://github.com/philipchungtech/irvingt>
+#Copyright (c) 2016-2017 Philip Chung. All rights reserved.
 #Available under the 2-clause BSD license (refer to `LICENSE.txt` for details)
 
 .data

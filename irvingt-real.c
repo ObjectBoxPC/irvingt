@@ -18,7 +18,7 @@
  * the register in which it should be passed.
  *
  * @copyright Copyright (c) 2016-2017 Philip Chung
- * <https://github.com/philipchungtech/irvingt>
+ * <https://github.com/ObjectBoxPC/irvingt>
  * All rights reserved.
  * Available under the 2-clause BSD license (refer to `LICENSE.txt`
  * for details).

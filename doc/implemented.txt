@@ -1,4 +1,5 @@
 CloseFile
+Clrscr
 CreateOutputFile
 Crlf
 Delay

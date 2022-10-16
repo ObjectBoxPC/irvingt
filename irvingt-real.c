@@ -17,7 +17,7 @@
  * For convenience, all the documentation is in this file. Each parameter lists
  * the register in which it should be passed.
  *
- * @copyright Copyright (c) 2016-2017 Philip Chung
+ * @copyright Copyright (c) 2016-2022 Philip Chung
  * <https://github.com/ObjectBoxPC/irvingt>
  * All rights reserved.
  * Available under the 2-clause BSD license (refer to `LICENSE.txt`

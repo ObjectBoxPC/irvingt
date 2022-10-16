@@ -8,7 +8,7 @@ The only such assembler I could find is [JWasm](https://sourceforge.net/projects
 
 A Linux binary is provided, so you can use it right away on a Linux system. On other systems, you will have to compile it yourself.
 
-### Compile JWasm
+### Compile JWasm (Non-Linux Systems)
 
 1. Download the source code. (Updated source code seems to be on [GitHub](https://github.com/JWasm/JWasm).)
 2. Install a suitable compiler (GCC or Clang), if one is not already installed.
@@ -29,9 +29,7 @@ Instructions are in `README.md`.
 
 ## Part C: Download the Irvine32 Include Files
 
-Go to the [regular download page](http://kipirvine.com/asm/examples/index.htm) and download the files for the *5th Edition, using Visual Studio 2008*. This is the last version that is provided in a ZIP file rather than an MSI installer, and it should still work.
-
-If you really want the latest version, you can use `msiextract` from [msitools](https://wiki.gnome.org/msitools), available in the repositories of some GNU/Linux distributions. If your system does not provide msitools, you can compile it yourself, but I'd suggest that you not go through the hassle.
+Download and extract the [Irvine32 library files](https://github.com/surferkip/asmbook) from GitHub (specifically `Irvine.zip`).
 
 ## Part D: Change the Irvine32 Include Files
 

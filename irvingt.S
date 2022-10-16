@@ -1,12 +1,65 @@
-#This file is part of IrvingT <https://bitbucket.org/philipchungtech/irvingt>
-#Copyright (c) 2016 Philip Chung. All rights reserved.
+#This file is part of IrvingT <https://github.com/ObjectBoxPC/irvingt>
+#Copyright (c) 2016-2017 Philip Chung. All rights reserved.
 #Available under the 2-clause BSD license (refer to `LICENSE.txt` for details)
 
 .data
 
 ret_val: .int 0
+ret_extra: .int 0
 
 .text
+
+.globl CloseFile
+.type CloseFile, @function
+
+CloseFile:
+	pushal
+	pushfl
+
+	pushl %eax
+	call CloseFile_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+
+	ret
+
+.globl CreateOutputFile
+.type CreateOutputFile, @function
+
+CreateOutputFile:
+	pushal
+	pushfl
+
+	pushl %edx
+	call CreateOutputFile_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+
+	ret
+
+#ifndef IRVINGT_HAVE_ALONG
+.globl Clrscr
+.type Clrscr, @function
+
+Clrscr:
+	pushal
+	pushfl
+
+	call Clrscr_Real
+
+	popfl
+	popal
+
+	ret
+#endif
 
 #ifndef IRVINGT_HAVE_ALONG
 .globl Crlf
@@ -17,6 +70,44 @@ Crlf:
 	pushfl
 
 	call Crlf_Real
+
+	popfl
+	popal
+
+	ret
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
+.globl DumpMem
+.type DumpMem, @function
+
+DumpMem:
+	pushal
+	pushfl
+
+	pushl %ebx
+	pushl %ecx
+	pushl %esi
+	call DumpMem_Real
+	addl $12, %esp
+
+	popfl
+	popal
+
+	ret
+#endif
+
+#ifndef IRVINGT_HAVE_ALONG
+.globl Delay
+.type Delay, @function
+
+Delay:
+	pushal
+	pushfl
+
+	pushl %eax
+	call Delay_Real
+	addl $4, %esp
 
 	popfl
 	popal
@@ -47,26 +138,66 @@ DumpRegs:
 	ret
 #endif
 
+.globl OpenInputFile
+.type OpenInputFile, @function
+
+OpenInputFile:
+	pushal
+	pushfl
+
+	pushl %edx
+	call OpenInputFile_Real
+	addl $4, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+
+	ret
+
+.globl ReadFromFile
+.type ReadFromFile, @function
+
+ReadFromFile:
+	pushal
+	pushfl
+
+	pushl $ret_extra
+	pushl %ecx
+	pushl %edx
+	pushl %eax
+	call ReadFromFile_Real
+	addl $16, %esp
+
+	movl %eax, ret_val
+	popfl
+	popal
+	movl ret_val, %eax
+	btl $0, ret_extra
+
+	ret
+
 .globl StrLength
 .type StrLength, @function
 
 StrLength:
-	pushfl
 	pushal
+	pushfl
 
 	pushl %edx
 	call StrLength_Real
 	addl $4, %esp
 
 	movl %eax, ret_val
-	popal
 	popfl
+	popal
 	movl ret_val, %eax
 
 	ret
 
 .globl WaitMsg
-.type WaitMsg, STT_FUNC
+.type WaitMsg, @function
 
 WaitMsg:
 	pushal
@@ -169,3 +300,23 @@ WriteString:
 
 	ret
 #endif
+
+.globl WriteToFile
+.type WriteToFile, @function
+
+WriteToFile:
+	pushal
+	pushfl
+
+	pushl %ecx
+	pushl %edx
+	pushl %eax
+	call WriteToFile_Real
+	addl $12, %esp
+
+	mov %eax, ret_val
+	popfl
+	popal
+	mov ret_val, %eax
+
+	ret

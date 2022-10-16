@@ -1,5 +1,12 @@
+CloseFile
+Clrscr
+CreateOutputFile
 Crlf
+Delay
+DumpMem
 DumpRegs
+OpenInputFile
+ReadFromFile
 StrLength
 WaitMsg
 WriteChar
@@ -7,3 +14,4 @@ WriteDec
 WriteHex
 WriteInt
 WriteString
+WriteToFile

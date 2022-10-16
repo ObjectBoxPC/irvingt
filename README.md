@@ -1,10 +1,14 @@
 # IrvingT
 
+**Note**: This library has not been actively developed since 2017, especially since I finished the course I used it in. If you need a function that is not implemented here, please consider using [Along32](https://sourceforge.net/projects/along32/) if you are running Linux. Bug reports and outside contributions are still welcome.
+
+---
+
 IrvingT is a clone of the Irvine32 library, used in *Assembly Language for x86 Processors* by Kip Irvine, for Unix-like systems (Linux, BSD, etc.). This library is one piece of the puzzle of working with programs in the textbook on Unix-like systems. (For the full puzzle, read `doc/puzzle.md`.)
 
-Unlike [Along32](https://sourceforge.net/projects/jwasm/), a Linux port of Irvine32, IrvingT uses the C standard library, rather than system calls, so it is portable to other Unix-like systems. Also, IrvingT provides an emulation of the Windows `ExitProcess` function, which is required by the `exit` macro in Irvine32.
+Unlike [Along32](https://sourceforge.net/projects/along32/), a Linux port of Irvine32, IrvingT uses the C standard library and POSIX API functions, rather than system calls, so it is portable to other Unix-like systems. Also, IrvingT provides an emulation of the Windows `ExitProcess` function, which is required by the `exit` macro in Irvine32.
 
-The latest version is 0.2.1. Not all functions are implemented yet. For a list of implemented functions, read `doc/implemented.txt`.
+The latest version is 0.3.0. Not all functions are implemented yet. For a list of implemented functions, read `doc/implemented.txt`.
 
 ## Compiling
 

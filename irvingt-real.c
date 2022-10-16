@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
+#include <stddef.h>
 
 /**
  * @file
@@ -14,12 +18,61 @@
  * For convenience, all the documentation is in this file. Each parameter lists
  * the register in which it should be passed.
  *
- * @copyright Copyright (c) 2016 Philip Chung
- * <https://bitbucket.org/philipchungtech/irvingt>
+ * @copyright Copyright (c) 2016-2022 Philip Chung
+ * <https://github.com/ObjectBoxPC/irvingt>
  * All rights reserved.
  * Available under the 2-clause BSD license (refer to `LICENSE.txt`
  * for details).
  */
+
+/**
+ * Integer representing an invalid file handle (`INVALID_HANDLE_VALUE`
+ * in Irvine32).
+ * @see CreateOutputFile_Real
+ */
+const int IRVINGT_INVALID_HANDLE = -1;
+
+/**
+ * Close a file handle.
+ * @param handle (EAX) Handle to close
+ * @return (EAX) Nonzero if the file was closed successfully, zero otherwise
+ * @see CreateOutputFile_Real
+ */
+int CloseFile_Real(int handle) {
+	if((handle != IRVINGT_INVALID_HANDLE) && (!fclose((FILE*) handle))) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+/**
+ * Clear the terminal.
+ */
+#ifndef IRVINGT_HAVE_ALONG
+void Clrscr_Real(void) {
+	if(isatty(STDOUT_FILENO)) {
+		printf("%s", "\x1B[H\x1B[J");
+		fflush(stdout);
+	}
+}
+#endif
+
+/**
+ * Create a file for output.
+ * @param filename (EDX) Filename as a null-terminated string
+ * @return (EAX) File handle, or `INVALID_HANDLE_VALUE` if the file could not
+ * be created
+ * @see WriteToFile_Real, CloseFile_Real
+ */
+int CreateOutputFile_Real(const char* filename) {
+	FILE* file = fopen(filename, "wb");
+	if(file) {
+		return (int) file;
+	} else {
+		return IRVINGT_INVALID_HANDLE;
+	}
+}
 
 /**
  * Advance to the next line in the terminal by writing a newline.
@@ -27,6 +80,61 @@
 #ifndef IRVINGT_HAVE_ALONG
 void Crlf_Real(void) {
 	puts("");
+}
+#endif
+
+/**
+ * Display memory contents, organized in byte, word, or doubleword units.
+ * @param addr (ESI) Memory address
+ * @param count (ECX) Number of units to display
+ * @param size (EBX) Unit size (1 = byte, 2 = word, 4 = doubleword)
+ */
+#ifndef IRVINGT_HAVE_ALONG
+void DumpMem_Real(void* addr, unsigned int count, unsigned int size) {
+	unsigned int* data_dword = addr;
+	unsigned short* data_word = addr;
+	unsigned char* data_byte = addr;
+	unsigned int i;
+
+	puts("");
+	printf("Dump of offset %.8X\n", (int) addr);
+	puts("-------------------------------");
+	switch(size) {
+	case 4:
+		for(i = 0; i < count; i++) {
+			printf("%.8X  ", data_dword[i]);
+		}
+		break;
+	case 2:
+		for(i = 0; i < count; i++) {
+			printf("%.4X ", data_word[i]);
+		}
+		break;
+	case 1:
+		/* Bytes are the default */
+	default:
+		for(i = 0; i < count; i++) {
+			printf("%.2X ", data_byte[i]);
+			if((i + 1) % 16 == 0) {
+				puts("");
+			}
+		}
+	}
+	puts("");
+}
+#endif
+
+/**
+ * Pause the program temporarily.
+ * @param msecs (EAX) Time to pause for, in milliseconds
+ */
+#ifndef IRVINGT_HAVE_ALONG
+void Delay_Real(unsigned int msecs) {
+	struct timespec spec;
+
+	spec.tv_sec = msecs / 1000;
+	spec.tv_nsec = (msecs % 1000) * 1000000L;
+	nanosleep(&spec, NULL);
 }
 #endif
 
@@ -62,23 +170,53 @@ void DumpRegs_Real(int eip, int efl, int edi, int esi, int ebp, int esp, int ebx
 #endif
 
 /**
- * Exit the program with the given status.
- * This function is not part of Irvine32; it is a Windows API function. However,
- * it is included because Irvine32 uses it as part of its "exit" macro.
- * @param status Status code
- */
-void ExitProcess(int status) {
-	puts("Exit");
-	exit(status);
-}
-
-/**
  * Find the length of a null-terminated string.
  * @param str (EDX) String
  * @return (EAX) Length
  */
 unsigned int StrLength_Real(const char* str) {
 	return (unsigned int) strlen(str);
+}
+
+/**
+ * Open a file for intput.
+ * @param filename (EDX) Filename as a null-terminated string
+ * @return (EAX) File handle, or `INVALID_HANDLE_VALUE` if the file could not
+ * be created
+ * @see ReadFromFile_Real, CloseFile_Real
+ */
+int OpenInputFile_Real(const char* filename) {
+	FILE* file = fopen(filename, "rb");
+	if(file) {
+		return (int) file;
+	} else {
+		return IRVINGT_INVALID_HANDLE;
+	}
+}
+
+/**
+ * Read data from a file.
+ * @param handle (EAX) File handle
+ * @param buf (EDX) Buffer
+ * @param count (ECX) Number of bytes to read
+ * @param carry (CF: least significant bit) Set if EAX contains an error code,
+ * clear if EAX contains the number of bytes read
+ * @return (EAX) Number of bytes read, or an error code on error
+ */
+unsigned int ReadFromFile_Real(FILE* handle, char* buf, unsigned int count, int* carry) {
+	int errno_old, ret_val;
+
+	errno_old = errno;
+	errno = 0;
+	ret_val = fread(buf, 1, count, handle);
+	if(errno) {
+		*carry = 1;
+		ret_val = errno;
+	} else {
+		*carry = 0;
+	}
+	errno = errno_old;
+	return ret_val;
 }
 
 /**
@@ -147,3 +285,14 @@ void WriteString_Real(const char* str) {
 	fflush(stdout);
 }
 #endif
+
+/**
+ * Write data to a file.
+ * @param handle (EAX) File handle
+ * @param buf (EDX) Buffer
+ * @param count (ECX) Number of bytes to write
+ * @return (EAX) Number of bytes written, or zero if an error occurred
+ */
+unsigned int WriteToFile_Real(FILE* handle, const char* buf, unsigned int count) {
+	return (unsigned int) fwrite(buf, 1, count, handle);
+}

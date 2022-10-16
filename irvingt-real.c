@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <errno.h>
 #include <stddef.h>
 
@@ -44,6 +45,18 @@ int CloseFile_Real(int handle) {
 		return 0;
 	}
 }
+
+/**
+ * Clear the terminal.
+ */
+#ifndef IRVINGT_HAVE_ALONG
+void Clrscr_Real(void) {
+	if(isatty(STDOUT_FILENO)) {
+		printf("%s", "\x1B[H\x1B[J");
+		fflush(stdout);
+	}
+}
+#endif
 
 /**
  * Create a file for output.

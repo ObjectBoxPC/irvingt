@@ -29,9 +29,7 @@ Instructions are in `README.md`.
 
 ## Part C: Download the Irvine32 Include Files
 
-I recommend downloading the 5th edition files because they are the last version to be provided in a ZIP file rather than an MSI installer, and they should still work. Go to an [old version of the download page](https://web.archive.org/web/20160814231351/http://kipirvine.com/asm/examples/index.htm) (available through the Wayback Machine) and download the files for the *5th Edition, using Visual Studio 2008*.
-
-Alternatively, you can go to the [current download page](http://kipirvine.com/asm/examples/index.htm) and extract the files from the MSI installer using `msiextract`, from [msitools](https://wiki.gnome.org/msitools), available in the repositories of some GNU/Linux distributions. If your system does not provide msitools, you can compile it yourself, but I'd suggest that you not go through the hassle.
+Download and extract the [Irvine32 library files](https://github.com/surferkip/asmbook) from GitHub (specifically `Irvine.zip`).
 
 ## Part D: Change the Irvine32 Include Files
 

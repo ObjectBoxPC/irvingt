@@ -120,7 +120,7 @@ void Delay_Real(unsigned int msecs) {
 	struct timespec spec;
 
 	spec.tv_sec = msecs / 1000;
-	spec.tv_nsec = (msecs % 1000) * 1000;
+	spec.tv_nsec = (msecs % 1000) * 1000000L;
 	nanosleep(&spec, NULL);
 }
 #endif

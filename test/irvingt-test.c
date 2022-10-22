@@ -67,6 +67,5 @@ int main(void) {
 		cmocka_unit_test_prestate(StrLength_can_compute, &registers),
 	};
 
-	cmocka_run_group_tests(tests, setup, teardown);
-	return 0;
+	return !!cmocka_run_group_tests(tests, setup, teardown);
 }

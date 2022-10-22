@@ -236,8 +236,7 @@ void WaitMsg_Real(void) {
  */
 #ifndef IRVINGT_HAVE_ALONG
 void WriteChar_Real(unsigned int c) {
-	unsigned char c_real = c & 0xFF;
-	printf("%c", c_real);
+	printf("%c", c & 0xFF);
 	fflush(stdout);
 }
 #endif

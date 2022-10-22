@@ -62,9 +62,8 @@ static void StrLength_can_compute(void** state) {
 }
 
 int main(void) {
-	struct register_state registers = { 0 };
 	const struct CMUnitTest tests[] = {
-		cmocka_unit_test_prestate(StrLength_can_compute, &registers),
+		cmocka_unit_test(StrLength_can_compute),
 	};
 
 	return !!cmocka_run_group_tests(tests, setup, teardown);

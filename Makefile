@@ -11,7 +11,7 @@ AR=ar
 OBJS=irvingt.o irvingt-real.o irvingt-proc.o
 
 #C compiler flags
-CFLAGS=-m32 -Wall -Wextra -std=gnu89 -O2 -g
+CFLAGS=-m32 -Wall -Wextra -ansi -pedantic -O2 -g -D_POSIX_C_SOURCE=199309L
 
 all: $(TARGET)
 

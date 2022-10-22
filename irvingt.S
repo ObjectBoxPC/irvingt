@@ -1,6 +1,8 @@
-#This file is part of IrvingT <https://github.com/ObjectBoxPC/irvingt>
-#Copyright (c) 2016-2017 Philip Chung. All rights reserved.
-#Available under the 2-clause BSD license (refer to `LICENSE.txt` for details)
+/*
+ * This file is part of IrvingT <https://github.com/ObjectBoxPC/irvingt>
+ * Copyright (c) 2016-2017 Philip Chung. All rights reserved.
+ * Available under the 2-clause BSD license (refer to `LICENSE.txt` for details)
+ */
 
 .data
 
@@ -123,13 +125,13 @@ DumpRegs:
 	pushal
 	pushfl
 
-	#Save return address (EIP) from stack
-	#Nine 32-bit registers were pushed after the return address
+	/* Save return address (EIP) from stack */
+	/* Nine 32-bit registers were pushed after the return address */
 	pushl 36(%esp)
 
 	call DumpRegs_Real
 
-	#Remove return address from stack
+	/* Remove return address from stack */
 	addl $4, %esp
 
 	popfl
@@ -218,7 +220,7 @@ WriteChar:
 	pushal
 	pushfl
 
-	#Push the entire EAX for alignment reasons
+	/* Push the entire EAX for alignment reasons */
 	pushl %eax
 	call WriteChar_Real
 	addl $4, %esp

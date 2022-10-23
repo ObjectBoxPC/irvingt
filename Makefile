@@ -22,7 +22,7 @@ CSTD=-std=c90 -D_POSIX_C_SOURCE=199309L
 TEST_CSTD=-std=c99 -D_POSIX_C_SOURCE=200809L
 
 #Linking flags for testing
-TEST_LINKFLAGS=-m32 -z noexecstack -lcmocka
+TEST_LINKFLAGS=-m32 -z noexecstack -z notext -lcmocka
 
 all: $(TARGET) $(TEST_TARGET)
 

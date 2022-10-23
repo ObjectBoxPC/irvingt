@@ -17,7 +17,7 @@ OBJS=irvingt.o irvingt-real.o irvingt-proc.o
 TEST_OBJS=test/irvingt-test.o test/irvingt-test-call.o
 
 #C compiler flags
-CFLAGS=-m32 -Wall -Wextra -Wpedantic -O2 -g
+CFLAGS=-m32 -Wall -Wextra -Wpedantic -Wno-newline-eof -Wno-gnu-zero-variadic-macro-arguments -O2 -g
 CSTD=-std=c90 -D_POSIX_C_SOURCE=199309L
 TEST_CSTD=-std=c99 -D_POSIX_C_SOURCE=200809L
 

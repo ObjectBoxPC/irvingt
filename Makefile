@@ -24,7 +24,7 @@ TEST_CSTD=-std=c99 -D_POSIX_C_SOURCE=200809L
 #Linking flags for testing
 TEST_LINKFLAGS=-m32 -z noexecstack -lcmocka
 
-all: $(TARGET)
+all: $(TARGET) $(TEST_TARGET)
 
 $(TARGET): $(OBJS)
 	$(AR) rcs $(TARGET) $(OBJS)
@@ -48,5 +48,5 @@ test/irvingt-test.o: test/irvingt-test.c
 clean:
 	rm -f $(TARGET) $(TEST_TARGET) $(OBJS) $(TEST_OBJS)
 
-test: $(TEST_TARGET)
+test:
 	$(TEST_TARGET)

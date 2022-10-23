@@ -52,6 +52,30 @@ static int teardown(void** state) {
 	return 0;
 }
 
+static void CreateOutputFile_can_create(void** state) {
+	struct test_state* test_state = *state;
+	char test_file_path[IRVINGT_TEST_PATH_MAX];
+	const char* test_file_sub = "/test.txt";
+
+	if (strlen(test_state->tmp_dir) + strlen(test_file_sub) + 1 > IRVINGT_TEST_PATH_MAX) {
+		fail_msg("Temporary file path is too long");
+		return;
+	}
+
+	strcpy(test_file_path, test_state->tmp_dir);
+	strcat(test_file_path, test_file_sub);
+
+	test_state->registers.edx = (int) &test_file_path;
+	test_state->registers.eax = 0;
+	irvingt_test_call(&CreateOutputFile, &test_state->registers);
+
+	assert_int_not_equal(0, test_state->registers.eax);
+	assert_int_equal(0, access(test_file_path, F_OK));
+
+	irvingt_test_call(&CloseFile, &test_state->registers);
+	unlink(test_file_path);
+}
+
 static void StrLength_can_compute(void** state) {
 	struct test_state* test_state = *state;
 	const char* str = "test";
@@ -63,6 +87,7 @@ static void StrLength_can_compute(void** state) {
 
 int main(void) {
 	const struct CMUnitTest tests[] = {
+		cmocka_unit_test(CreateOutputFile_can_create),
 		cmocka_unit_test(StrLength_can_compute),
 	};
 

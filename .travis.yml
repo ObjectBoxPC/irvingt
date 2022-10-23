@@ -1,0 +1,7 @@
+language: c
+compiler:
+  - gcc
+  - clang
+script: make CC="$CC" && make test
+notifications:
+  email: false

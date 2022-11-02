@@ -23,23 +23,32 @@ struct test_state {
 
 void irvingt_test_call(void (*irvingt_func)(void), struct register_state* registers);
 
+char* make_test_file_path(char* test_file_path, const char* test_dir, const char* file_name) {
+	if (strlen(test_dir) + strlen(file_name) + 2 > IRVINGT_TEST_PATH_MAX) {
+		fail_msg("Test file path is too long");
+		return NULL;
+	}
+
+	strcpy(test_file_path, test_dir);
+	strcat(test_file_path, "/");
+	strcat(test_file_path, file_name);
+
+	return test_file_path;
+}
+
 static int setup(void** state) {
 	struct test_state* new_state;
 	struct register_state registers = { 0 };
 	char tmp_dir[IRVINGT_TEST_PATH_MAX];
 	const char* tmp_dir_base = getenv("TMPDIR");
-	const char* tmp_dir_template = "/irvingt_testXXXXXX";
 
 	if (!tmp_dir_base || strlen(tmp_dir_base) == 0) {
 		tmp_dir_base = "/tmp";
 	}
 
-	if (strlen(tmp_dir_base) + strlen(tmp_dir_template) + 1 > IRVINGT_TEST_PATH_MAX) {
-		fail_msg("Temporary directory path is too long");
+	if (!make_test_file_path(tmp_dir, tmp_dir_base, "irvingt_testXXXXXX")) {
 		return -1;
 	}
-	strcpy(tmp_dir, tmp_dir_base);
-	strcat(tmp_dir, tmp_dir_template);
 
 	if (!mkdtemp(tmp_dir)) {
 		fail_msg("Cannot create temporary directory");
@@ -69,15 +78,10 @@ static int teardown(void** state) {
 static void CreateOutputFile_can_create(void** state) {
 	struct test_state* test_state = *state;
 	char test_file_path[IRVINGT_TEST_PATH_MAX];
-	const char* test_file_sub = "/test.txt";
 
-	if (strlen(test_state->tmp_dir) + strlen(test_file_sub) + 1 > IRVINGT_TEST_PATH_MAX) {
-		fail_msg("Temporary file path is too long");
+	if (!make_test_file_path(test_file_path, test_state->tmp_dir, "test.txt")) {
 		return;
 	}
-
-	strcpy(test_file_path, test_state->tmp_dir);
-	strcat(test_file_path, test_file_sub);
 
 	test_state->registers.edx = (int) &test_file_path;
 	test_state->registers.eax = 0;

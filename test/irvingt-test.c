@@ -21,6 +21,8 @@ struct test_state {
 	char tmp_dir[IRVINGT_TEST_PATH_MAX];
 };
 
+extern int IRVINGT_INVALID_HANDLE;
+
 void irvingt_test_call(void (*irvingt_func)(void), struct register_state* registers);
 
 char* make_test_file_path(char* test_file_path, const char* test_dir, const char* file_name) {
@@ -84,10 +86,10 @@ static void CreateOutputFile_can_create(void** state) {
 	}
 
 	test_state->registers.edx = (int) &test_file_path;
-	test_state->registers.eax = 0;
+	test_state->registers.eax = IRVINGT_INVALID_HANDLE;
 	irvingt_test_call(&CreateOutputFile, &test_state->registers);
 
-	assert_int_not_equal(0, test_state->registers.eax);
+	assert_int_not_equal(IRVINGT_INVALID_HANDLE, test_state->registers.eax);
 	assert_int_equal(0, access(test_file_path, F_OK));
 
 	irvingt_test_call(&CloseFile, &test_state->registers);

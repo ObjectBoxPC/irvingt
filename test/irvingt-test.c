@@ -1,4 +1,5 @@
 #include "irvingt-funcs.h"
+#include <fcntl.h>
 #include <setjmp.h>
 #include <stdarg.h>
 #include <stddef.h>
@@ -96,6 +97,44 @@ static void CreateOutputFile_can_create(void** state) {
 	unlink(test_file_path);
 }
 
+static void OpenInputFile_can_open(void** state) {
+	struct test_state* test_state = *state;
+	char test_file_path[IRVINGT_TEST_PATH_MAX];
+	int file_fd;
+
+	if (!make_test_file_path(test_file_path, test_state->tmp_dir, "test.txt")) {
+		return;
+	}
+
+	file_fd = open(test_file_path, O_WRONLY | O_CREAT | O_EXCL, 0600);
+	assert_int_not_equal(-1, file_fd);
+	assert_int_equal(0, close(file_fd));
+
+	test_state->registers.edx = (int) &test_file_path;
+	test_state->registers.eax = IRVINGT_INVALID_HANDLE;
+	irvingt_test_call(&OpenInputFile, &test_state->registers);
+
+	assert_int_not_equal(IRVINGT_INVALID_HANDLE, test_state->registers.eax);
+
+	irvingt_test_call(&CloseFile, &test_state->registers);
+	unlink(test_file_path);
+}
+
+static void OpenInputFile_nonexistent_returns_invalid(void** state) {
+	struct test_state* test_state = *state;
+	char test_file_path[IRVINGT_TEST_PATH_MAX];
+
+	if (!make_test_file_path(test_file_path, test_state->tmp_dir, "nonexistent")) {
+		return;
+	}
+
+	test_state->registers.edx = (int) &test_file_path;
+	test_state->registers.eax = 0;
+	irvingt_test_call(&OpenInputFile, &test_state->registers);
+
+	assert_int_equal(IRVINGT_INVALID_HANDLE, test_state->registers.eax);
+}
+
 static void StrLength_can_compute(void** state) {
 	struct test_state* test_state = *state;
 	const char* str = "test";
@@ -108,6 +147,8 @@ static void StrLength_can_compute(void** state) {
 int main(void) {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(CreateOutputFile_can_create),
+		cmocka_unit_test(OpenInputFile_can_open),
+		cmocka_unit_test(OpenInputFile_nonexistent_returns_invalid),
 		cmocka_unit_test(StrLength_can_compute),
 	};
 

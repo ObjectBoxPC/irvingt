@@ -26,9 +26,23 @@ void irvingt_test_call(void (*irvingt_func)(void), struct register_state* regist
 static int setup(void** state) {
 	struct test_state* new_state;
 	struct register_state registers = { 0 };
-	char tmp_dir[IRVINGT_TEST_PATH_MAX] = "/tmp/irvingt_testXXXXXX";
+	char tmp_dir[IRVINGT_TEST_PATH_MAX];
+	const char* tmp_dir_base = getenv("TMPDIR");
+	const char* tmp_dir_template = "/irvingt_testXXXXXX";
+
+	if (!tmp_dir_base || strlen(tmp_dir_base) == 0) {
+		tmp_dir_base = "/tmp";
+	}
+
+	if (strlen(tmp_dir_base) + strlen(tmp_dir_template) + 1 > IRVINGT_TEST_PATH_MAX) {
+		fail_msg("Temporary directory path is too long");
+		return -1;
+	}
+	strcpy(tmp_dir, tmp_dir_base);
+	strcat(tmp_dir, tmp_dir_template);
 
 	if (!mkdtemp(tmp_dir)) {
+		fail_msg("Cannot create temporary directory");
 		return -1;
 	}
 
